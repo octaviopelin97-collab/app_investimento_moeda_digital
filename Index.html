@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Investimentos Cyberpunk</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        /* Paleta Cyberpunk e Reset */
+        body {
+            background-color: #050505;
+            background-image: radial-gradient(circle at 50% 0%, #1a0033 0%, #000000 80%);
+            color: #00ffcc; /* Verde neon */
+            font-family: 'Share Tech Mono', monospace;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Glassmorfismo */
+        .glass-panel {
+            background: rgba(20, 0, 40, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 255, 204, 0.2);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 0 25px rgba(138, 43, 226, 0.3); /* Roxo neon */
+            max-width: 800px;
+            width: 100%;
+            margin-bottom: 40px;
+            box-sizing: border-box;
+        }
+
+        h1, h2, h3 {
+            color: #8a2be2; /* Roxo neon */
+            text-shadow: 0 0 10px rgba(138, 43, 226, 0.7);
+            border-bottom: 1px solid rgba(138, 43, 226, 0.3);
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        /* Formulários */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+            letter-spacing: 1px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid #8a2be2;
+            color: #00ffcc;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1em;
+            border-radius: 4px;
+            box-sizing: border-box;
+            transition: 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #00ffcc;
+            box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+        }
+
+        /* Botão */
+        button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 10px;
+            background: transparent;
+            color: #00ffcc;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1.2em;
+            font-weight: bold;
+            border: 2px solid #00ffcc;
+            border-radius: 4px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 255, 204, 0.2) inset;
+        }
+
+        button:hover {
+            background: #00ffcc;
+            color: #050505;
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.6);
+        }
+
+        /* Resultados */
+        #terminal-output {
+            margin-top: 25px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border-left: 4px solid #8a2be2;
+            display: none;
+            line-height: 1.6;
+        }
+
+        .highlight { color: #8a2be2; font-weight: bold; }
+        .success { color: #00ffcc; }
+        .warning { color: #ff0055; }
+
+        /* Estratégias */
+        .strategy-block {
+            margin-top: 25px;
+            line-height: 1.6;
+            color: #d1d1d1;
+        }
+        .strategy-block p { text-align: justify; }
+        .strategy-block ul { margin-top: 10px; padding-left: 20px; }
+        .strategy-block li { margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="glass-panel">
+        <h1>SYS.CALC_INVEST // v1.0</h1>
+        <p>Projeção algorítmica de juros compostos para alocação de capital.</p>
+
+        <div class="form-group">
+            <label>Objetivo Financeiro (Alvo em R$):</label>
+            <input type="number" id="goal" placeholder="Ex: 500000" step="100">
+        </div>
+
+        <div class="form-group">
+            <label>Capital Inicial (R$):</label>
+            <input type="number" id="initial" placeholder="Ex: 10000" step="100">
+        </div>
+
+        <div class="form-group">
+            <label>Aporte Mensal (R$):</label>
+            <input type="number" id="monthly" placeholder="Ex: 1500" step="100">
+        </div>
+
+        <div class="form-group">
+            <label>Taxa de Juros Anual Estimada (%):</label>
+            <input type="number" id="rate" placeholder="Ex: 12" step="0.1">
+        </div>
+
+        <button onclick="calculateProjection()">Executar Simulação</button>
+
+        <div id="terminal-output"></div>
+    </div>
+
+    <div class="glass-panel">
+        <h2>ESTRATÉGIAS DE ATIVOS DIGITAIS</h2>
+        <p>Diretrizes técnicas para investidores na composição de portfólio de criptoativos.</p>
+
+        <div class="strategy-block">
+            <h3>[1] BITCOIN (BTC): Reserva de Valor Assintomática</h3>
+            <p>O Bitcoin atua como um protocolo de rede descentralizada e escassa, cujo comportamento de mercado é classificado como "ouro digital". Para investidores iniciantes e intermediários, a volatilidade de curto prazo deve ser mitigada através de estratégias sistêmicas.</p>
+            <ul>
+                <li><strong class="highlight">DCA (Dollar Cost Averaging):</strong> Em vez de tentar prever o ciclo de mercado (Market Timing), recomenda-se a compra automatizada e fracionada (diária, semanal ou mensal). Esta técnica dilui o risco de flutuações bruscas e estabelece um preço médio de aquisição mais seguro.</li>
+                <li><strong class="highlight">Análise de Ciclos (Halving):</strong> Historicamente, o mercado de criptoativos sofre choques de oferta programados a cada quatro anos (Halving), reduzindo a emissão de novos BTCs em 50%. Intermediários devem estruturar o portfólio visando janelas de liquidez pós-Halving.</li>
+                <li><strong class="highlight">Custódia (Cold Storage):</strong> A mitigação do risco de contraparte (falência de corretoras) é mandatória. Ativos de longo prazo devem ser movidos para carteiras de hardware (Cold Wallets).</li>
+            </ul>
+        </div>
+
+        <div class="strategy-block">
+            <h3>[2] CARDANO (ADA): Ecossistema de Contratos Inteligentes</h3>
+            <p>Cardano opera sob a arquitetura <em>Proof-of-Stake</em> (PoS) e distingue-se pelo rigor académico revisto por pares (Peer-Reviewed). A tese de investimento na ADA não é de reserva de valor primária, mas de exposição ao crescimento de infraestruturas financeiras descentralizadas (DeFi).</p>
+            <ul>
+                <li><strong class="highlight">Staking Nativo (Rendimento Passivo):</strong> Ao contrário do Bitcoin, a rede Cardano permite delegar as suas ADA (sem bloquear os fundos ou perder a custódia) a "Stake Pools", gerando um retorno anualizado (APR) em torno de 3% a 5%. Esta é a estratégia primária de acumulação orgânica.</li>
+                <li><strong class="highlight">Gestão de Risco (Risk/Reward Ratio):</strong> Como "Altcoin", a ADA apresenta um Beta superior ao do BTC. O portfólio deve limitar a exposição a este ativo (geralmente entre 5% e 15% do capital total destinado a cripto), amortecendo drawdowns agressivos do mercado.</li>
+                <li><strong class="highlight">Métricas On-Chain:</strong> O investidor intermediário deve monitorizar o Total Value Locked (TVL) do ecossistema e o volume de transações de Contratos Inteligentes (Plutus V2) para justificar a manutenção da posição a longo prazo.</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function calculateProjection() {
+            const goal = parseFloat(document.getElementById('goal').value);
+            const initial = parseFloat(document.getElementById('initial').value);
+            const monthly = parseFloat(document.getElementById('monthly').value);
+            const annualRate = parseFloat(document.getElementById('rate').value);
+            const terminal = document.getElementById('terminal-output');
+
+            terminal.style.display = 'block';
+
+            if (isNaN(goal) || isNaN(initial) || isNaN(monthly) || isNaN(annualRate) || goal <= 0) {
+                terminal.innerHTML = "<span class='warning'>[ERRO DE SINTAXE] Parâmetros de entrada inválidos. Insira valores numéricos superiores a zero.</span>";
+                return;
+            }
+
+            const monthlyRate = (annualRate / 100) / 12;
+            let currentBalance = initial;
+            let months = 0;
+            let totalInvested = initial;
+
+            // Proteção contra loop infinito em caso de juros e aportes baixos/nulos
+            if (monthlyRate === 0 && monthly === 0 && currentBalance < goal) {
+                 terminal.innerHTML = "<span class='warning'>[ALERTA DE SISTEMA] Objetivo inatingível com taxa de rentabilidade e aporte nulos.</span>";
+                 return;
+            }
+
+            // Simulação (Limite de segurança de 1200 meses / 100 anos)
+            while (currentBalance < goal && months < 1200) {
+                currentBalance += currentBalance * monthlyRate;
+                currentBalance += monthly;
+                totalInvested += monthly;
+                months++;
+            }
+
+            if (months >= 1200) {
+                terminal.innerHTML = "<span class='warning'>[LIMITE EXCEDIDO] A meta requer mais de 100 anos para ser atingida com os parâmetros atuais. Ajuste o aporte ou as expectativas.</span>";
+                return;
+            }
+
+            const years = Math.floor(months / 12);
+            const remMonths = months % 12;
+            const compoundInterest = currentBalance - totalInvested;
+
+            let output = `> PROCESSANDO DADOS DA REDE... [OK]<br><br>`;
+            output += `> <span class="success">TEMPO ESTIMADO PARA OBJETIVO:</span> <strong class="highlight">${years} anos e ${remMonths} meses</strong>.<br><br>`;
+            output += `> VALOR FINAL ALCANÇADO: <strong>R$ ${currentBalance.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</strong><br>`;
+            output += `> CAPITAL ALOCADO (SEU DINHEIRO): R$ ${totalInvested.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}<br>`;
+            output += `> RENTABILIDADE DO SISTEMA (JUROS COMPOSTOS): <span class="highlight">R$ ${compoundInterest.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>`;
+
+            terminal.innerHTML = output;
+        }
+    </script>
+</body>
+</html>
